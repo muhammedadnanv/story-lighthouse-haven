@@ -1,8 +1,29 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchLatestAINews } from '../utils/api';
+import axios from 'axios';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
+
+const BASE_URL = 'https://newsapi.org/v2';
+const API_KEY = 'YOUR_NEWS_API_KEY'; // Replace with your actual News API key
+
+const fetchLatestAINews = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/everything`, {
+      params: {
+        q: 'artificial intelligence AND (developer OR programming)',
+        sortBy: 'publishedAt',
+        language: 'en',
+        pageSize: 100,
+        apiKey: API_KEY,
+      },
+    });
+    return response.data.articles || [];
+  } catch (error) {
+    console.error('Error fetching AI news:', error);
+    return [];
+  }
+};
 
 const StoryList = () => {
   const { data: stories, isLoading, error } = useQuery({

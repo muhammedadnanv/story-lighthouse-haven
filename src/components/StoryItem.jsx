@@ -3,7 +3,7 @@ import { ExternalLink } from 'lucide-react';
 
 const StoryItem = ({ story }) => {
   if (!story) {
-    return null; // or return a placeholder component
+    return null;
   }
 
   return (
