@@ -6,15 +6,20 @@ import axios from 'axios';
 import { API_KEY, SEARCH_ENGINE_ID, BASE_URL } from '../config/api';
 
 const fetchGoogleResults = async () => {
-  const response = await axios.get(BASE_URL, {
-    params: {
-      key: API_KEY,
-      cx: SEARCH_ENGINE_ID,
-      q: 'artificial intelligence',
-      num: 10,
-    },
-  });
-  return response.data.items;
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: {
+        key: API_KEY,
+        cx: SEARCH_ENGINE_ID,
+        q: 'artificial intelligence',
+        num: 10,
+      },
+    });
+    return response.data.items;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw new Error('Failed to fetch search results. Please try again later.');
+  }
 };
 
 const StoryList = () => {
@@ -38,7 +43,7 @@ const StoryList = () => {
   }
 
   if (!stories || stories.length === 0) {
-    return <div className="text-gray-500">No results found.</div>;
+    return <div className="text-gray-500">No results found. Try searching for something!</div>;
   }
 
   return (
