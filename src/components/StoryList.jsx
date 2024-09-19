@@ -3,25 +3,24 @@ import { useQuery } from '@tanstack/react-query';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from 'axios';
-import { API_KEY, BASE_URL } from '../config/api';
+import { API_KEY, SEARCH_ENGINE_ID, BASE_URL } from '../config/api';
 
-const fetchLatestAINews = async () => {
-  const response = await axios.get(`${BASE_URL}/everything`, {
+const fetchGoogleResults = async () => {
+  const response = await axios.get(BASE_URL, {
     params: {
+      key: API_KEY,
+      cx: SEARCH_ENGINE_ID,
       q: 'artificial intelligence',
-      sortBy: 'publishedAt',
-      language: 'en',
-      pageSize: 20,
-      apiKey: API_KEY,
+      num: 10,
     },
   });
-  return response.data.articles;
+  return response.data.items;
 };
 
 const StoryList = () => {
   const { data: stories, isLoading, error } = useQuery({
-    queryKey: ['latestAINews'],
-    queryFn: fetchLatestAINews,
+    queryKey: ['googleResults'],
+    queryFn: fetchGoogleResults,
   });
 
   if (isLoading) {
@@ -35,11 +34,11 @@ const StoryList = () => {
   }
 
   if (error) {
-    return <div className="text-red-500">Error loading AI news: {error.message}</div>;
+    return <div className="text-red-500">Error loading results: {error.message}</div>;
   }
 
   if (!stories || stories.length === 0) {
-    return <div className="text-gray-500">No stories found.</div>;
+    return <div className="text-gray-500">No results found.</div>;
   }
 
   return (

@@ -7,7 +7,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-center">ZeroKoptheer</h1>
-        <h2 className="text-2xl font-semibold mb-4 text-center">Latest AI News for Developers</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">Google Search Results</h2>
         <SearchBar />
         <StoryList />
       </div>

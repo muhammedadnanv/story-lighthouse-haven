@@ -9,12 +9,12 @@ const StoryItem = ({ story }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <h2 className="text-xl font-semibold mb-2">{story.title || 'No Title'}</h2>
-      <p className="text-sm text-gray-600 mb-2">{story.description || 'No description available'}</p>
+      <p className="text-sm text-gray-600 mb-2">{story.snippet || 'No description available'}</p>
       <div className="flex justify-between items-center">
-        <span className="text-sm text-gray-600">Source: {story.source?.name || 'Unknown'}</span>
-        {story.url && (
+        <span className="text-sm text-gray-600">Source: {story.displayLink || 'Unknown'}</span>
+        {story.link && (
           <a
-            href={story.url}
+            href={story.link}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-blue-500 hover:text-blue-700"

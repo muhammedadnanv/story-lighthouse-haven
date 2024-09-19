@@ -1,3 +1,4 @@
-// Replace 'YOUR_API_KEY' with your actual NewsAPI.org API key
-export const API_KEY = 'YOUR_API_KEY';
-export const BASE_URL = 'https://newsapi.org/v2';
+// Replace with your actual Google Custom Search API key and Search Engine ID
+export const API_KEY = 'YOUR_GOOGLE_API_KEY';
+export const SEARCH_ENGINE_ID = 'YOUR_SEARCH_ENGINE_ID';
+export const BASE_URL = 'https://www.googleapis.com/customsearch/v1';
