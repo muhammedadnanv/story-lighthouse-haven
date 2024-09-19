@@ -2,28 +2,24 @@ import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { faker } from '@faker-js/faker';
-
-const generateFakeNews = (query, count = 10) => {
-  return Array.from({ length: count }, () => ({
-    title: `${query}: ${faker.lorem.sentence()}`,
-    description: faker.lorem.paragraph(),
-    url: faker.internet.url(),
-    source: {
-      name: faker.company.name()
-    },
-    publishedAt: faker.date.recent().toISOString()
-  }));
-};
+import axios from 'axios';
+import { API_KEY, BASE_URL } from '../config/api';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
 
   const searchAINews = async (query) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return generateFakeNews(query, 20);
+    const response = await axios.get(`${BASE_URL}/everything`, {
+      params: {
+        q: `${query} AND artificial intelligence`,
+        sortBy: 'publishedAt',
+        language: 'en',
+        pageSize: 20,
+        apiKey: API_KEY,
+      },
+    });
+    return response.data.articles;
   };
 
   const handleSearch = async (e) => {

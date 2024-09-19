@@ -2,24 +2,20 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
-import { faker } from '@faker-js/faker';
-
-const generateFakeNews = (count = 10) => {
-  return Array.from({ length: count }, () => ({
-    title: faker.lorem.sentence(),
-    description: faker.lorem.paragraph(),
-    url: faker.internet.url(),
-    source: {
-      name: faker.company.name()
-    },
-    publishedAt: faker.date.recent().toISOString()
-  }));
-};
+import axios from 'axios';
+import { API_KEY, BASE_URL } from '../config/api';
 
 const fetchLatestAINews = async () => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return generateFakeNews(20);
+  const response = await axios.get(`${BASE_URL}/everything`, {
+    params: {
+      q: 'artificial intelligence',
+      sortBy: 'publishedAt',
+      language: 'en',
+      pageSize: 20,
+      apiKey: API_KEY,
+    },
+  });
+  return response.data.articles;
 };
 
 const StoryList = () => {
