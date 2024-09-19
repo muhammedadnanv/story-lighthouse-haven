@@ -24,6 +24,10 @@ const StoryList = () => {
     return <div className="text-red-500">Error loading AI news: {error.message}</div>;
   }
 
+  if (!stories || stories.length === 0) {
+    return <div className="text-gray-500">No stories found.</div>;
+  }
+
   return (
     <div className="space-y-4">
       {stories.map((story, index) => (
