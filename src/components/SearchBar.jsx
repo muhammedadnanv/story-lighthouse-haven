@@ -1,32 +1,29 @@
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { faker } from '@faker-js/faker';
 
-const BASE_URL = 'https://newsapi.org/v2';
-const API_KEY = 'YOUR_NEWS_API_KEY'; // Replace with your actual News API key
+const generateFakeNews = (query, count = 10) => {
+  return Array.from({ length: count }, () => ({
+    title: `${query}: ${faker.lorem.sentence()}`,
+    description: faker.lorem.paragraph(),
+    url: faker.internet.url(),
+    source: {
+      name: faker.company.name()
+    },
+    publishedAt: faker.date.recent().toISOString()
+  }));
+};
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
 
   const searchAINews = async (query) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/everything`, {
-        params: {
-          q: `${query} AND (artificial intelligence) AND (developer OR programming)`,
-          sortBy: 'publishedAt',
-          language: 'en',
-          pageSize: 100,
-          apiKey: API_KEY,
-        },
-      });
-      return response.data.articles || [];
-    } catch (error) {
-      console.error('Error searching AI news:', error);
-      return [];
-    }
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return generateFakeNews(query, 20);
   };
 
   const handleSearch = async (e) => {

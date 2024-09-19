@@ -1,28 +1,25 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
+import { faker } from '@faker-js/faker';
 
-const BASE_URL = 'https://newsapi.org/v2';
-const API_KEY = 'YOUR_NEWS_API_KEY'; // Replace with your actual News API key
+const generateFakeNews = (count = 10) => {
+  return Array.from({ length: count }, () => ({
+    title: faker.lorem.sentence(),
+    description: faker.lorem.paragraph(),
+    url: faker.internet.url(),
+    source: {
+      name: faker.company.name()
+    },
+    publishedAt: faker.date.recent().toISOString()
+  }));
+};
 
 const fetchLatestAINews = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/everything`, {
-      params: {
-        q: 'artificial intelligence AND (developer OR programming)',
-        sortBy: 'publishedAt',
-        language: 'en',
-        pageSize: 100,
-        apiKey: API_KEY,
-      },
-    });
-    return response.data.articles || [];
-  } catch (error) {
-    console.error('Error fetching AI news:', error);
-    return [];
-  }
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return generateFakeNews(20);
 };
 
 const StoryList = () => {
