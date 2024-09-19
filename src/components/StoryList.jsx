@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchTopStories } from '../utils/api';
+import { fetchLatestAINews } from '../utils/api';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
 
 const StoryList = () => {
   const { data: stories, isLoading, error } = useQuery({
-    queryKey: ['topStories'],
-    queryFn: fetchTopStories,
+    queryKey: ['latestAINews'],
+    queryFn: fetchLatestAINews,
   });
 
   if (isLoading) {
@@ -21,13 +21,13 @@ const StoryList = () => {
   }
 
   if (error) {
-    return <div className="text-red-500">Error loading stories: {error.message}</div>;
+    return <div className="text-red-500">Error loading AI news: {error.message}</div>;
   }
 
   return (
     <div className="space-y-4">
-      {stories.map((story) => (
-        <StoryItem key={story.objectID} story={story} />
+      {stories.map((story, index) => (
+        <StoryItem key={index} story={story} />
       ))}
     </div>
   );

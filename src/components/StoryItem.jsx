@@ -5,8 +5,9 @@ const StoryItem = ({ story }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <h2 className="text-xl font-semibold mb-2">{story.title}</h2>
+      <p className="text-sm text-gray-600 mb-2">{story.description}</p>
       <div className="flex justify-between items-center">
-        <span className="text-sm text-gray-600">Upvotes: {story.points}</span>
+        <span className="text-sm text-gray-600">Source: {story.source.name}</span>
         <a
           href={story.url}
           target="_blank"
