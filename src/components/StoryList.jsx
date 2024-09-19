@@ -2,36 +2,30 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import StoryItem from './StoryItem';
 import { Skeleton } from "@/components/ui/skeleton";
-import axios from 'axios';
-import { API_KEY, SEARCH_ENGINE_ID, BASE_URL } from '../config/api';
+import { mockStories } from '../data/mockStories';
 
-const fetchGoogleResults = async () => {
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        key: API_KEY,
-        cx: SEARCH_ENGINE_ID,
-        q: 'artificial intelligence',
-        num: 10,
-      },
-    });
-    return response.data.items;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw new Error('Failed to fetch search results. Please try again later.');
-  }
+const fetchMockStories = async (searchTerm) => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  if (!searchTerm) return mockStories;
+  
+  return mockStories.filter(story => 
+    story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    story.snippet.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 };
 
-const StoryList = () => {
+const StoryList = ({ searchTerm }) => {
   const { data: stories, isLoading, error } = useQuery({
-    queryKey: ['googleResults'],
-    queryFn: fetchGoogleResults,
+    queryKey: ['stories', searchTerm],
+    queryFn: () => fetchMockStories(searchTerm),
   });
 
   if (isLoading) {
     return (
       <div className="space-y-4">
-        {[...Array(10)].map((_, index) => (
+        {[...Array(5)].map((_, index) => (
           <Skeleton key={index} className="h-20 w-full" />
         ))}
       </div>
@@ -43,7 +37,7 @@ const StoryList = () => {
   }
 
   if (!stories || stories.length === 0) {
-    return <div className="text-gray-500">No results found. Try searching for something!</div>;
+    return <div className="text-gray-500">No results found. Try searching for something else!</div>;
   }
 
   return (
